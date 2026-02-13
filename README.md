@@ -54,22 +54,23 @@ Clone the repository
 
 ```bash
 git clone https://github.com/BharathRaj73/Smart-Bookmark-App.git
+
 Navigate into project directory
-
 cd Smart-Bookmark-App
+
 Install dependencies
-
 npm install
-Create .env.local file in root directory
 
+Create .env.local file in root directory
 NEXT_PUBLIC_SUPABASE_URL=your_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+
 Start development server
-
 npm run dev
-Open browser:
 
+Open browser:
 http://localhost:3000
+
 Project Structure
 app/
  ├── page.tsx
