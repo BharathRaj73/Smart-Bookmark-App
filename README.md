@@ -1,123 +1,79 @@
-🚀 Smart Bookmark App
+# Smart Bookmark App
 
-A full-stack bookmark management application built with Next.js, Supabase, and Tailwind CSS.
+- Smart Bookmark App is a secure web application that allows users to save and manage their personal bookmarks.
+- Users can sign in using Google Authentication.
+- Each user can only access their own saved bookmarks.
+- The application features a modern UI with smooth animations and real-time updates.
 
-This project allows users to securely sign in using Google OAuth and manage their personal bookmarks with a modern, responsive UI.
+---
 
-🌟 Features
+## Tech Stack
 
-🔐 Google Authentication (OAuth)
-➕ Add bookmarks with validation
-❌ Delete bookmarks with animation
-🌐 URL validation (http:// / https:// enforced)
-🖼 Automatic favicon preview
-📱 Fully responsive design
-🎨 Glassmorphism styled login page
-⚡ Real-time updates with Supabase
+**Frontend:** Next.js, Tailwind CSS  
+**Backend & Database:** Supabase (PostgreSQL)  
+**Authentication:** Google OAuth  
 
-🛠 Tech Stack
+---
 
-Frontend: Next.js 
-Backend & Database: Supabase 
-Authentication: Google OAuth
-Styling: Tailwind CSS
-Deployment Ready: Vercel compatible
+## Features
 
-🧠 Challenges Faced & How I Solved Them
-1️⃣ Supabase Row Level Security (RLS) Issues
+- Google Login Authentication  
+- Protected Dashboard  
+- Add Bookmarks (Title + URL)  
+- URL Validation (`http://` or `https://` required)  
+- Delete Bookmarks with animation  
+- Favicon preview for each link  
+- Real-time data updates  
+- Responsive design  
 
-Problem:
-Initially, insert and fetch operations failed because RLS was enabled but policies were not configured.
+---
 
-Solution:
-I created proper RLS policies to:
-Allow authenticated users to insert their own bookmarks.
-Allow users to fetch only their own records using user_id = auth.uid().
-This improved security and prevented cross-user data access.
+## Challenges Faced
 
-2️⃣ Session Not Persisting After Login
+### 1. Row Level Security (RLS)
+Database operations initially failed due to missing RLS policies.  
+Created policies allowing users to access only their own bookmarks using `auth.uid()`.
 
-Problem:
-After Google login, session was not updating immediately on UI.
+### 2. Session Not Updating After Login
+UI was not reflecting login state immediately.  
+Solved using `supabase.auth.onAuthStateChange()` listener.
 
-Solution:
-Implemented supabase.auth.onAuthStateChange() listener to properly track authentication state and refresh bookmarks on login.
+### 3. Data Not Refreshing After Insert
+New bookmarks were not visible without page refresh.  
+Created reusable `fetchBookmarks()` function triggered after insert/delete.
 
-3️⃣ Data Not Showing After Insert
+### 4. Invalid URL Inputs
+Users could enter malformed URLs.  
+Implemented strict validation enforcing `http://` or `https://` and verified using `new URL()`.
 
-Problem:
-After adding a bookmark, it didn’t appear immediately unless the page was refreshed.
+---
 
-Solution:
-Created a reusable fetchBookmarks() function and triggered it after successful insert and delete operations.
+## Run Locally
 
-This ensured real-time UI updates without page reload.
+Clone the repository
 
-4️⃣ URL Validation & Error Handling
+```bash
+git clone https://github.com/BharathRaj73/Smart-Bookmark-App.git
+Navigate into project directory
 
-Problem:
-Users could enter invalid URLs like google.com, which caused broken links.
+cd Smart-Bookmark-App
+Install dependencies
 
-Solution:
-Implemented strict validation:
+npm install
+Create .env.local file in root directory
 
-Ensured URL starts with http:// or https://
-Used new URL() constructor to validate format
-Displayed meaningful alerts for invalid input
+NEXT_PUBLIC_SUPABASE_URL=your_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+Start development server
 
-5️⃣ Next.js Dev Server Lock Error
+npm run dev
+Open browser:
 
-Problem:
-Encountered .next/dev/lock error due to multiple dev instances.
-
-Solution:
-Terminated running processes and removed duplicate lockfiles to ensure clean development environment.
-
-📂 Project Structure
+http://localhost:3000
+Project Structure
 app/
  ├── page.tsx
  ├── globals.css
 lib/
  ├── supabase.ts
-.env.local
 
-⚙️ Installation
-
-Clone repository
-
-git clone https://github.com/BharathRaj73/Smart-Bookmark-App
-cd smart-bookmark-app
-
-
-Install dependencies
-
-npm install
-
-
-Create .env.local
-
-NEXT_PUBLIC_SUPABASE_URL=your_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-
-
-Run project
-
-npm run dev
-
-
-🎯 What I Learned
-
-Implementing secure authentication with OAuth
-Managing state in Next.js App Router
-Working with Supabase RLS policies
-Designing production-style UI with Tailwind
-Handling real-time data updates cleanly
-Debugging environment & lockfile issues
-
-🚀 Future Improvements
-
-Edit bookmark feature
-Search & filter functionality
-Bookmark categories
-User profile section
-Drag-and-drop reordering
